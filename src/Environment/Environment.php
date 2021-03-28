@@ -17,12 +17,12 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Cli\Environment;
+namespace Phalcon\Incubator\Cli\Environment;
 
 /**
  * Console Environment
  *
- * @package Phalcon\Cli\Environment
+ * @package Phalcon\Incubator\Cli\Environment
  */
 class Environment implements EnvironmentInterface
 {

@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Cli\Input;
+namespace Phalcon\Incubator\Cli\Input;
 
 /**
  * Option Interface.

@@ -17,14 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Cli\Environment;
+namespace Phalcon\Incubator\Cli\Environment;
 
 /**
  * The Environment Aware Interface
  *
  * This interface must be implemented in those classes that uses EnvironmentInterface interface
  *
- * @package Phalcon\Cli\Environment
+ * @package Phalcon\Incubator\Cli\Environment
  */
 interface EnvironmentAwareInterface
 {

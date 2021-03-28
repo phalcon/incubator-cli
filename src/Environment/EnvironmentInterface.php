@@ -17,7 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-namespace Phalcon\Cli\Environment;
+namespace Phalcon\Incubator\Cli\Environment;
 
 /**
  * Environment Interface

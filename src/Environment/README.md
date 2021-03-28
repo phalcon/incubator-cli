@@ -1,4 +1,4 @@
-# Phalcon\Cli\Environment
+# Phalcon\Incubator\Cli\Environment
 
 This component provides functionality that helps writing CLI oriented code that has runtime-specific execution params.
 
@@ -26,8 +26,8 @@ Firstly you need to create an environment aware Console Application and implemen
 ```php
 namespace MyAwesomeApplication;
 
-use Phalcon\Cli\Environment\EnvironmentInterface;
-use Phalcon\Cli\Environment\EnvironmentAwareInterface;
+use Phalcon\Incubator\Cli\Environment\EnvironmentInterface;
+use Phalcon\Incubator\Cli\Environment\EnvironmentAwareInterface;
 use Phalcon\Di\FactoryDefault\Cli as CliDi;
 use Phalcon\Cli\Console as PhConsole;
 use Phalcon\DiInterface;
@@ -63,7 +63,7 @@ class Console extends PhConsole implements EnvironmentAwareInterface
 Then you need to add `Environment` component to your Console Application.
 
 ```php
-use Phalcon\Cli\Environment\Environment;
+use Phalcon\Incubator\Cli\Environment\Environment;
 use MyAwesomeApplication\Console;
 
 $application = new Console;
@@ -75,8 +75,8 @@ $application->setEnvironment(
 
 ## Implementing your own Environment
 
-The `Phalcon\Cli\Environment\EnvironmentInterface` interface must be implemented to create your own Environment
-replacing the one provided by `Phalcon\Cli\Environment` component or extend the current one.
+The `Phalcon\Incubator\Cli\Environment\EnvironmentInterface` interface must be implemented to create your own Environment
+replacing the one provided by `Phalcon\Incubator\Cli\Environment` component or extend the current one.
 
 [1]: http://vt100.net/annarbor/aaa-ug/section13.html
 [2]: https://technet.microsoft.com/en-us/library/bb490932.aspx

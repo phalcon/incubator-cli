@@ -19,11 +19,11 @@ use Phalcon\Cli\Console\Exception;
 use Phalcon\Helper\Arr;
 
 /**
- * Phalcon\CLI\Console\Extended
+ * Phalcon\Incubator\Cli\Console\Extended
  *
  * Extended Console Application that uses annotations in order to create automatically a help description.
  *
- * @package Phalcon\Cli\Console
+ * @package Phalcon\Incubator\Cli\Console
  */
 class Extended extends ConsoleApp
 {
@@ -43,8 +43,6 @@ class Extended extends ConsoleApp
             $this->createHelp();
             $this->showHelp($arguments['task']);
         }
-
-
 
         parent::handle($arguments);
     }
