@@ -35,13 +35,18 @@ class Extended extends ConsoleApp
      * Handle the whole command-line tasks
      *
      * @param array|null $arguments
+     *
+     * @throws Exception
      */
     public function handle(array $arguments = null)
     {
+        $this->arguments = $arguments;
+
         if ($this->isHelpArgInTask($arguments) || $this->isHelpArgInAction($arguments)) {
-            $this->setTasksDir();
             $this->createHelp();
             $this->showHelp($arguments['task']);
+
+            return;
         }
 
         parent::handle($arguments);
@@ -50,8 +55,12 @@ class Extended extends ConsoleApp
     /**
      * @throws Exception
      */
-    private function setTasksDir()
+    private function getTasksDir()
     {
+        if ($this->tasksDir) {
+            return $this->tasksDir;
+        }
+
         $config = $this->getDI()->get('config');
 
         if (!isset($config['tasksDir']) || !is_dir($config['tasksDir'])) {
@@ -59,13 +68,26 @@ class Extended extends ConsoleApp
         }
 
         $this->tasksDir = $config['tasksDir'];
+
+        return $this->tasksDir;
+    }
+
+    private function getNamespace()
+    {
+        if ($this->arguments && isset($this->arguments['namespace'])) {
+            return $this->arguments['namespace'];
+        }
+
+        $dispatcher = $this->getDI()->getShared('dispatcher');
+
+        return $dispatcher->getNamespaceName() ?: $dispatcher->getDefaultNamespace();
     }
 
     private function createHelp()
     {
         $scannedTasksDir = array_diff(
             scandir(
-                $this->tasksDir
+                $this->getTasksDir()
             ),
             [
                 '..',
@@ -74,8 +96,7 @@ class Extended extends ConsoleApp
         );
 
         $config = $this->getDI()->get('config');
-        $dispatcher = $this->getDI()->getShared('dispatcher');
-        $namespace = $dispatcher->getNamespaceName();
+        $namespace = $this->getNamespace();
 
         if (isset($config['annotationsAdapter']) && $config['annotationsAdapter']) {
             $adapter = '\Phalcon\Annotations\Adapter\\' . $config['annotationsAdapter'];
