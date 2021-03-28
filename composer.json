@@ -1,0 +1,57 @@
+{
+  "name": "phalcon/incubator-cli",
+  "description": "Phalcon Incubator CLI",
+  "keywords": [
+    "framework",
+    "phalcon",
+    "incubator",
+    "console",
+    "cli"
+  ],
+  "homepage": "https://phalcon.io",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Phalcon Team",
+      "email": "team@phalcon.io",
+      "homepage": "https://phalcon.io/en/team"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://github.com/phalcon/incubator-annotations/graphs/contributors"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/phalcon/incubator-annotations/issues",
+    "source": "https://github.com/phalcon/incubator-annotations",
+    "forum": "https://forum.phalcon.io"
+  },
+  "require": {
+    "php": ">=7.2",
+    "ext-phalcon": "^4.0"
+  },
+  "require-dev": {
+    "phalcon/ide-stubs": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phalcon\\Incubator\\Cli\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "archive": {
+    "exclude": [
+      "/.github",
+      "/tests",
+      ".codacy.yml",
+      ".codecov.yml",
+      "CHANGELOG.md",
+      "codeception.yml",
+      "phpcs.xml.dist",
+      "phpstan.neon.dist",
+      "phpunit.xml.dist",
+      "psalm.xml.dist"
+    ]
+  }
+}
