@@ -1,26 +1,22 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (https://www.phalconphp.com)      |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Sebastian Arrubia <sarrubia@gmail.com>                        |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Incubator Annotations.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-namespace Phalcon\Cli\Console;
+declare(strict_types=1);
 
-use Phalcon\Cli\Console as ConsoleApp;
+namespace Phalcon\Incubator\Cli\Console;
+
 use Phalcon\Annotations\Adapter\Memory as MemoryAdapter;
+use Phalcon\Cli\Console as ConsoleApp;
+use Phalcon\Cli\Console\Exception;
+use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\CLI\Console\Extended
@@ -31,38 +27,30 @@ use Phalcon\Annotations\Adapter\Memory as MemoryAdapter;
  */
 class Extended extends ConsoleApp
 {
-    private $tasksDir = '';
-    private $documentation = [];
+    private $tasksDir;
+
+    private $documentation;
 
     /**
      * Handle the whole command-line tasks
      *
-     * @param array $arguments Cli arguments
-     *
-     * @return mixed
-     * @throws \Phalcon\Cli\Console\Exception
+     * @param array|null $arguments
      */
     public function handle(array $arguments = null)
     {
-        if (isset($arguments['task']) && in_array($arguments['task'], ['-h', '--help', 'help'])) {
+        if ($this->isHelpArgInTask($arguments) || $this->isHelpArgInAction($arguments)) {
             $this->setTasksDir();
             $this->createHelp();
-            $this->showHelp();
-
-            return;
-        } elseif (isset($arguments['action']) && in_array($arguments['action'], ['-h', '--help', 'help'])) {
-            $this->setTasksDir();
-            $this->createHelp();
-            $this->showTaskHelp($arguments['task']);
-
-            return;
+            $this->showHelp($arguments['task']);
         }
+
+
 
         parent::handle($arguments);
     }
 
     /**
-     * @throws \Phalcon\Cli\Console\Exception
+     * @throws Exception
      */
     private function setTasksDir()
     {
@@ -175,7 +163,10 @@ class Extended extends ConsoleApp
         }
     }
 
-    private function showHelp()
+    /**
+     * @param string|null $task
+     */
+    private function showHelp(string $task = null)
     {
         $config = $this->getDI()->get('config');
 
@@ -194,6 +185,16 @@ class Extended extends ConsoleApp
         echo PHP_EOL;
         echo "\t" , 'command [<task> [<action> [<param1> <param2> ... <paramN>] ] ]', PHP_EOL;
         echo PHP_EOL;
+
+        if (!is_null($task) && !$this->isHelp($task)) {
+            $this->showTaskHelp($task);
+        } else {
+            $this->showAvailableTasks();
+        }
+    }
+
+    private function showAvailableTasks()
+    {
         echo PHP_EOL . 'To show task help type:' . PHP_EOL;
         echo PHP_EOL;
         echo '           command <task> -h | --help | help'  . PHP_EOL;
@@ -210,78 +211,69 @@ class Extended extends ConsoleApp
         }
     }
 
-    private function showTaskHelp($taskTogetHelp)
+    private function showTaskHelp($task)
     {
-        $config = $this->getDI()->get('config');
+        $doc = Arr::get($this->documentation, $task);
 
-        $helpOutput = PHP_EOL;
+        echo PHP_EOL;
+        echo "Task: " . $task . PHP_EOL . PHP_EOL;
 
-        if (isset($config['appName'])) {
-            $helpOutput .= $config['appName'] . ' ';
+        foreach ($doc['description'] as $line) {
+            echo '  '.$line . PHP_EOL;
         }
 
-        if (isset($config['version'])) {
-            $helpOutput .= $config['version'];
-        }
-
-        echo $helpOutput . PHP_EOL;
-        echo PHP_EOL . 'Usage:' . PHP_EOL;
         echo PHP_EOL;
-        echo "\t" , 'command [<task> [<action> [<param1> <param2> ... <paramN>] ] ]', PHP_EOL;
-        echo PHP_EOL;
+        echo 'Available actions:' . PHP_EOL . PHP_EOL;
 
-        foreach ($this->documentation as $task => $doc) {
-            if ($taskTogetHelp != $task) {
-                continue;
+        foreach ($doc['actions'] as $actionName => $aDoc) {
+            echo '           ' . $actionName . PHP_EOL;
+
+            if (isset($aDoc['description'])) {
+                echo '               '.implode(PHP_EOL, $aDoc['description']) . PHP_EOL;
             }
 
-            echo PHP_EOL;
-            echo "Task: " . $task . PHP_EOL . PHP_EOL;
+            echo  PHP_EOL;
 
-            foreach ($doc['description'] as $line) {
-                echo '  '.$line . PHP_EOL;
-            }
+            if (isset($aDoc['params']) && is_array($aDoc['params'])) {
+                echo '               Parameters:' . PHP_EOL;
 
-            echo PHP_EOL;
-            echo 'Available actions:' . PHP_EOL . PHP_EOL;
+                foreach ($aDoc['params'] as $param) {
+                    if (is_array($param)) {
+                        $_to_print = '';
 
-            foreach ($doc['actions'] as $actionName => $aDoc) {
-                echo '           ' . $actionName . PHP_EOL;
+                        if (isset($param[0]['name'])) {
+                            $_to_print = $param[0]['name'];
+                        }
 
-                if (isset($aDoc['description'])) {
-                    echo '               '.implode(PHP_EOL, $aDoc['description']) . PHP_EOL;
-                }
+                        if (isset($param[0]['type'])) {
+                            $_to_print .= ' ( ' . $param[0]['type'] . ' )';
+                        }
 
-                echo  PHP_EOL;
+                        if (isset($param[0]['description'])) {
+                            $_to_print .= ' ' . $param[0]['description'] . PHP_EOL;
+                        }
 
-                if (isset($aDoc['params']) && is_array($aDoc['params'])) {
-                    echo '               Parameters:' . PHP_EOL;
-
-                    foreach ($aDoc['params'] as $param) {
-                        if (is_array($param)) {
-                            $_to_print = '';
-
-                            if (isset($param[0]['name'])) {
-                                $_to_print = $param[0]['name'];
-                            }
-
-                            if (isset($param[0]['type'])) {
-                                $_to_print .= ' ( ' . $param[0]['type'] . ' )';
-                            }
-
-                            if (isset($param[0]['description'])) {
-                                $_to_print .= ' ' . $param[0]['description'] . PHP_EOL;
-                            }
-
-                            if (!empty($_to_print)) {
-                                echo '                   ' . $_to_print;
-                            }
+                        if (!empty($_to_print)) {
+                            echo '                   ' . $_to_print;
                         }
                     }
                 }
             }
-
-            break;
         }
+    }
+
+    private function isHelpArgInTask(array $arguments): bool
+    {
+        return Arr::has($arguments, 'task') && $this->isHelp($arguments['task']);
+    }
+
+    private function isHelpArgInAction(array $arguments): bool
+    {
+        return Arr::has($arguments, 'action') && $this->isHelp($arguments['action']);
+    }
+
+    private function isHelp(string $argument): bool
+    {
+        return in_array($argument, ['-h', '--help', 'help']);
     }
 }
