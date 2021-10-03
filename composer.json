@@ -18,12 +18,12 @@
     },
     {
       "name": "Contributors",
-      "homepage": "https://github.com/phalcon/incubator-annotations/graphs/contributors"
+      "homepage": "https://github.com/phalcon/incubator-cli/graphs/contributors"
     }
   ],
   "support": {
-    "issues": "https://github.com/phalcon/incubator-annotations/issues",
-    "source": "https://github.com/phalcon/incubator-annotations",
+    "issues": "https://github.com/phalcon/incubator/issues",
+    "source": "https://github.com/phalcon/incubator-cli",
     "forum": "https://forum.phalcon.io"
   },
   "require": {
