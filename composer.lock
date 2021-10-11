@@ -57,6 +57,11 @@
                 "stub",
                 "stubs"
             ],
+            "support": {
+                "forum": "https://forum.phalcon.io/",
+                "issues": "https://github.com/phalcon/ide-stubs/issues",
+                "source": "https://github.com/phalcon/ide-stubs"
+            },
             "funding": [
                 {
                     "url": "https://github.com/phalcon",
@@ -80,5 +85,5 @@
         "ext-phalcon": "^4.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.1.0"
 }
