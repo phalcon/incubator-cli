@@ -16,7 +16,8 @@ namespace Phalcon\Incubator\Cli\Console;
 use Phalcon\Annotations\Adapter\Memory as MemoryAdapter;
 use Phalcon\Cli\Console as ConsoleApp;
 use Phalcon\Cli\Console\Exception;
-use Phalcon\Helper\Arr;
+use Phalcon\Support\Helper\Arr\Has;
+use Phalcon\Support\Helper\Arr\Get;
 
 /**
  * Phalcon\Incubator\Cli\Console\Extended
@@ -30,6 +31,16 @@ class Extended extends ConsoleApp
     private $tasksDir;
 
     private $documentation;
+
+    private $getObject;
+
+    private $hasObject;
+
+    public function __construct()
+    {
+        $this->getObject = new Get();
+        $this->hasObject = new Has();
+    }
 
     /**
      * Handle the whole command-line tasks
@@ -184,8 +195,9 @@ class Extended extends ConsoleApp
 
     /**
      * @param string|null $task
+     * @return void
      */
-    private function showHelp(string $task = null)
+    private function showHelp(string $task = null) : void
     {
         $config = $this->getDI()->get('config');
 
@@ -212,7 +224,7 @@ class Extended extends ConsoleApp
         }
     }
 
-    private function showAvailableTasks()
+    private function showAvailableTasks() : void
     {
         echo PHP_EOL . 'To show task help type:' . PHP_EOL;
         echo PHP_EOL;
@@ -230,9 +242,9 @@ class Extended extends ConsoleApp
         }
     }
 
-    private function showTaskHelp($task)
+    private function showTaskHelp($task) : void
     {
-        $doc = Arr::get($this->documentation, $task);
+        $doc = $this->getObject->__invoke($this->documentation, $task);
 
         echo PHP_EOL;
         echo "Task: " . $task . PHP_EOL . PHP_EOL;
@@ -283,12 +295,12 @@ class Extended extends ConsoleApp
 
     private function isHelpArgInTask(array $arguments): bool
     {
-        return Arr::has($arguments, 'task') && $this->isHelp($arguments['task']);
+        return $this->hasObject->__invoke($arguments, 'task') && $this->isHelp($arguments['task']);
     }
 
     private function isHelpArgInAction(array $arguments): bool
     {
-        return Arr::has($arguments, 'action') && $this->isHelp($arguments['action']);
+        return $this->hasObject->__invoke($arguments, 'action') && $this->isHelp($arguments['action']);
     }
 
     private function isHelp(string $argument): bool
