@@ -197,7 +197,7 @@ class Extended extends ConsoleApp
      * @param string|null $task
      * @return void
      */
-    private function showHelp(string $task = null) : void
+    private function showHelp(string $task = null): void
     {
         $config = $this->getDI()->get('config');
 
@@ -224,7 +224,7 @@ class Extended extends ConsoleApp
         }
     }
 
-    private function showAvailableTasks() : void
+    private function showAvailableTasks(): void
     {
         echo PHP_EOL . 'To show task help type:' . PHP_EOL;
         echo PHP_EOL;
@@ -242,7 +242,7 @@ class Extended extends ConsoleApp
         }
     }
 
-    private function showTaskHelp($task) : void
+    private function showTaskHelp($task): void
     {
         $doc = $this->getObject->__invoke($this->documentation, $task);
 
@@ -250,7 +250,7 @@ class Extended extends ConsoleApp
         echo "Task: " . $task . PHP_EOL . PHP_EOL;
 
         foreach ($doc['description'] as $line) {
-            echo '  '.$line . PHP_EOL;
+            echo '  ' . $line . PHP_EOL;
         }
 
         echo PHP_EOL;
@@ -260,7 +260,7 @@ class Extended extends ConsoleApp
             echo '           ' . $actionName . PHP_EOL;
 
             if (isset($aDoc['description'])) {
-                echo '               '.implode(PHP_EOL, $aDoc['description']) . PHP_EOL;
+                echo '               ' . implode(PHP_EOL, $aDoc['description']) . PHP_EOL;
             }
 
             echo  PHP_EOL;
