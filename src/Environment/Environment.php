@@ -30,7 +30,7 @@ class Environment implements EnvironmentInterface
      * Terminal dimensions
      * @var array
      */
-    protected $dimensions = null;
+    protected ?array $dimensions = null;
 
     /**
      * {@inheritdoc}
@@ -104,7 +104,7 @@ class Environment implements EnvironmentInterface
      *
      * @return array
      */
-    public function getDimensions()
+    public function getDimensions(): array
     {
         if (!empty($this->dimensions)) {
             return $this->dimensions;
@@ -146,9 +146,9 @@ class Environment implements EnvironmentInterface
      *
      * @param int $width  The width
      * @param int $height The height
-     * @return $this
+     * @return Environment
      */
-    public function setDimensions($width, $height)
+    public function setDimensions($width, $height): Environment
     {
         if ((is_int($width) || ctype_digit($width)) && (is_int($height) || ctype_digit($height))) {
             $this->dimensions = [
@@ -259,7 +259,7 @@ class Environment implements EnvironmentInterface
      *
      * @return int
      */
-    public function getNumberOfColumns()
+    public function getNumberOfColumns(): int
     {
         $dimensions = $this->getdimensions();
 
@@ -271,7 +271,7 @@ class Environment implements EnvironmentInterface
      *
      * @return int
      */
-    public function getNumberOfRows()
+    public function getNumberOfRows(): int
     {
         $dimensions = $this->getdimensions();
 

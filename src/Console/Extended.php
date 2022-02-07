@@ -30,7 +30,7 @@ class Extended extends ConsoleApp
 {
     private $tasksDir;
 
-    private $documentation;
+    private ?array $documentation = null;
 
     private $getObject;
 
@@ -49,7 +49,7 @@ class Extended extends ConsoleApp
      *
      * @throws Exception
      */
-    public function handle(array $arguments = null)
+    public function handle(?array $arguments = null)
     {
         $this->arguments = $arguments;
 

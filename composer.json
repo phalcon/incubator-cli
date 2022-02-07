@@ -30,7 +30,9 @@
     "ext-phalcon": "5.0.0beta2"
   },
   "require-dev": {
-    "phalcon/ide-stubs": "^4.1"
+    "phalcon/ide-stubs": "^4.1",
+    "vimeo/psalm": "^4.1",
+    "phpstan/phpstan": "^0.12.18"
   },
   "autoload": {
     "psr-4": {
