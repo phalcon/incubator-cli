@@ -26,12 +26,11 @@ namespace Phalcon\Incubator\Cli\Environment;
  */
 interface EnvironmentInterface
 {
-    const STDIN  = 0;
-    const STDOUT = 1;
-    const STDERR = 2;
-
-    const WIDTH  = 80;
-    const HEIGHT = 25;
+    public const STDIN  = 0;
+    public const STDOUT = 1;
+    public const STDERR = 2;
+    public const WIDTH  = 80;
+    public const HEIGHT = 25;
 
     /**
      * Checks if currently running under MS Windows.

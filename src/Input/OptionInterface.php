@@ -39,25 +39,25 @@ interface OptionInterface extends ParameterInterface
      * This constant marks the Option value as unacceptable.
      * @type int
      */
-    const VALUE_UNACCEPTABLE = 1;
+    public const VALUE_UNACCEPTABLE = 1;
 
     /**
      * This constant marks the Option value as required.
      * @type int
      */
-    const VALUE_REQUIRED = 2;
+    public const VALUE_REQUIRED = 2;
 
     /**
      * This constant marks the Option value as optional.
      * @type int
      */
-    const VALUE_OPTIONAL = 4;
+    public const VALUE_OPTIONAL = 4;
 
     /**
      * This constant marks the Option value as an array.
      * @type int
      */
-    const VALUE_IS_ARRAY = 8;
+    public const VALUE_IS_ARRAY = 8;
 
     /**
      * Gets the short option name.

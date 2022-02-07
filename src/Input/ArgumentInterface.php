@@ -40,19 +40,19 @@ interface ArgumentInterface extends ParameterInterface
      * This constant marks the Argument as required.
      * @type int
      */
-    const IS_REQUIRED = 1;
+    public const IS_REQUIRED = 1;
 
     /**
      * This constant marks the Argument as optional.
      * @type int
      */
-    const IS_OPTIONAL = 2;
+    public const IS_OPTIONAL = 2;
 
     /**
      * This constant marks the Argument as an array.
      * @type int
      */
-    const IS_ARRAY = 4;
+    public const IS_ARRAY = 4;
 
     /**
      * Checks if the Argument is required.
